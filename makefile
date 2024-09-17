@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall
 LDFLAGS = 
-OBJFILES = chunk.o memory.o main.o debug.o value.o vm.o
+OBJFILES = chunk.o memory.o main.o debug.o value.o vm.o compiler.o scanner.o
 TARGET = clox
 
 all: $(TARGET)
