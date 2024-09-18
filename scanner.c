@@ -158,7 +158,7 @@ static Token identifier(){
 }
 
 static Token string(){
-    while(peek(0 != '"') && !isAtEnd()){
+    while(peek() != '"' && !isAtEnd()){
         if(peek() == '\n') scanner.line++;
         advance();
     }
