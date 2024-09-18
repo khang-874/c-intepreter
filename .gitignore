@@ -1,2 +1,3 @@
 *.o
 clox
+test.lox
