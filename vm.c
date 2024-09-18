@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "memory.h"
 #include "object.h"
+#include "table.h"
 #include "value.h"
 #include <alloca.h>
 #include <stdarg.h>
@@ -31,10 +32,12 @@ static void runtimeError(const char* format, ...){
 }
 void initVM(){
     resetStack();
+    initTable(&vm.strings);
     vm.objects = NULL;
 }
 
 void freeVM(){
+    freeTable(&vm.strings);
     freeObjects();
 }
 
