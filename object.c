@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "chunk.h"
 #include "memory.h"
 #include "object.h"
 #include "value.h"
@@ -65,4 +66,12 @@ void printObject(Value value){
             printf("%s", AS_CSTRING(value));
             break;
     }
+}
+
+ObjFunction* newFunction(){
+    ObjFunction* function = ALLOCATE_OBJ(ObjFunction, OBJ_FUNCTION);
+    function -> arity = 0;
+    function -> name = NULL;
+    initChunk(&function -> chunk);
+    return function;
 }

@@ -8,6 +8,7 @@
 #include <alloca.h>
 #include <stdarg.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include "vm.h"
@@ -78,6 +79,8 @@ static InterpretResult run(){
 #define READ_BYTE() (*vm.ip++)
 #define READ_CONSTANT() (vm.chunk -> constants.values[READ_BYTE()])
 #define READ_STRING() AS_STRING(READ_CONSTANT())
+#define READ_SHORT() \
+    (vm.ip += 2, (uint16_t)((vm.ip[-2] << 8) | vm.ip[-1]))
 #define BINARY_OP(valueType, op) \
     do{ \
         if(!IS_NUMBER(peek(0)) || !IS_NUMBER(peek(1))) {\
@@ -187,6 +190,21 @@ static InterpretResult run(){
                 printf("\n");
                 break;
             }
+            case OP_JUMP_IF_FALSE:{
+                uint16_t offset = READ_SHORT();
+                if(isFalsey(peek(0))) vm.ip += offset;
+                break;
+            }
+            case OP_JUMP:{
+                uint16_t offset = READ_SHORT();
+                vm.ip += offset;
+                break;
+            }
+            case OP_LOOP:{
+                uint16_t offset = READ_SHORT();
+                vm.ip -= offset;
+                break;
+            }
             case OP_RETURN:{
                 //Exit interpreter.
                 return INTERPRET_OK;
@@ -194,6 +212,7 @@ static InterpretResult run(){
         }
     }
 
+#undef READ_SHORT
 #undef READ_BYTE
 #undef READ_CONSTANT
 #undef READ_STRING

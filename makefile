@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 LDFLAGS = 
 OBJFILES = chunk.o memory.o main.o debug.o value.o vm.o compiler.o scanner.o object.o table.o
 TARGET = clox

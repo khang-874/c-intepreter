@@ -1,6 +1,7 @@
 #ifndef clox_object_h
 #define clox_object_h
 
+#include "chunk.h"
 #include "common.h" 
 #include "value.h"
 
@@ -12,12 +13,20 @@
 #define AS_CSTRING(value)       (((ObjString*)AS_OBJ(value)) -> chars)
 typedef enum{
     OBJ_STRING,
+    OBJ_FUNCTION,
 } ObjType;
 
 struct Obj{
     ObjType type;
     struct Obj* next;
 };
+
+typedef struct{
+    Obj obj;
+    int arity;
+    Chunk chunk;
+    ObjString* name;
+}ObjFunction ;
 
 struct ObjString{
     Obj obj;
@@ -28,6 +37,7 @@ struct ObjString{
 
 ObjString* takeString(char* chars, int length);
 ObjString* copyString(const char* chars, int length);
+ObjFunction* newFunction();
 void printObject(Value value);
 
 static inline bool isObjType(Value value, ObjType type){
