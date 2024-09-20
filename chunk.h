@@ -29,7 +29,11 @@ typedef enum{
     OP_JUMP_IF_FALSE,
     OP_JUMP,
     OP_LOOP,
-    OP_CALL
+    OP_CALL,
+    OP_CLOSURE,
+    OP_GET_UPVALUE,
+    OP_SET_UPVALUE,
+    OP_CLOSE_UPVALUE,
 } OpCode;
 
 typedef struct{
